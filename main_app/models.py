@@ -15,9 +15,6 @@ class Finch(models.Model):
         return reverse('details', kwargs={'finch_id': self.id})
    
 class Feeding(models.Model):
-    date = models.DateField()
-    meal = models.CharField(max_length=1)
-
     MEALS = (
         ('B', 'Breakfast'),
         ('L', 'Lunch'),
@@ -33,3 +30,6 @@ class Feeding(models.Model):
 
     def __str__(self):
         return f'{self.get_meal_display()} on {self.date}'
+    
+    class Meta:
+        ordering = ['-date']
