@@ -48,6 +48,56 @@
 
   </div>
 
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ finch.name }}'s Birdhouses</h3>
+    {% if finch.birdhouses.count %}
+      {% for birdhouse in finch.birdhouses.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A {{ birdhouse.size }} <span style="color: {{ birdhouse.color }}">{{ birdhouse.color }}</span> birdhouse
+              <!-- A <span style="color: pink">{{ birdhouse.color }}</span> birdhouse -->
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_birdhouse' finch.id birdhouse.id %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Remove" class="btn red">
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Birdhouses 😿</h5>
+    {% endif %}
+  </div>
+  <!-- Available birdhouses will come after this line -->
+  <div class="col s6">
+    <h3>Available Birdhouses</h3>
+    {% if birdhouses.count %}
+      {% for birdhouse in birdhouses.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A {{ birdhouse.size }} <span style="color: {{ birdhouse.color }}">{{ birdhouse.color }}</span> birdhouse
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_birdhouse' finch.id birdhouse.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{finch.name}} Already Visits All Birdhouses Available</h5>
+    {% endif %}
+  </div>
+</div>
+
   <script>
     const dateEl = document.getElementById('id_date');
     // M is Materialize's global variable
